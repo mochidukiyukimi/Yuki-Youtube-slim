@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on 中学生エンジニアの数学ノート</title>
+    <link>/blog/tags/</link>
+    <description>Recent content in Tags on 中学生エンジニアの数学ノート</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 08 Jan 2023 14:54:05 +0900</lastBuildDate><atom:link href="/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>tag1</title>
+      <link>/blog/tags/tag1/</link>
+      <pubDate>Sun, 08 Jan 2023 14:54:05 +0900</pubDate>
+      
+      <guid>/blog/tags/tag1/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tag2</title>
+      <link>/blog/tags/tag2/</link>
+      <pubDate>Sun, 08 Jan 2023 14:54:05 +0900</pubDate>
+      
+      <guid>/blog/tags/tag2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>/blog/tags/hugo/</link>
+      <pubDate>Sun, 08 Jan 2023 14:44:36 +0900</pubDate>
+      
+      <guid>/blog/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ブログ</title>
+      <link>/blog/tags/%E3%83%96%E3%83%AD%E3%82%B0/</link>
+      <pubDate>Sun, 08 Jan 2023 14:44:36 +0900</pubDate>
+      
+      <guid>/blog/tags/%E3%83%96%E3%83%AD%E3%82%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>お知らせ</title>
+      <link>/blog/tags/%E3%81%8A%E7%9F%A5%E3%82%89%E3%81%9B/</link>
+      <pubDate>Fri, 06 Jan 2023 22:17:11 +0900</pubDate>
+      
+      <guid>/blog/tags/%E3%81%8A%E7%9F%A5%E3%82%89%E3%81%9B/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

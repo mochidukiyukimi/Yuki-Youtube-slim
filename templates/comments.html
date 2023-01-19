@@ -1,0 +1,12 @@
+{%for comment in comments%}<div>
+    <div class="pure-g" style="width:100%">
+        <div class="channel-profile pure-u-4-24 pure-u-md-2-24">
+            <img loading="lazy"style="margin-right:1em;margin-top:1em;width:90%" src="{{comment["authoricon"]}}">
+        </div>
+        <div class="pure-u-20-24 pure-u-md-22-24">
+            <p><b><a class="" href="/channel/{{comment["authorid"]}}">{{comment["author"]}}</a></b></p>
+            <p style="white-space:pre-wrap">{{comment["body"] | safe}}</p>
+            <div id="replies"></div>
+        </div>
+    </div>
+</div>{%endfor%}

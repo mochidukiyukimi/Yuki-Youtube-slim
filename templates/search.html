@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>連番を簡単に生成！！</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="/css/pure-min.css">
+    <link rel="stylesheet" href="/css/grids-responsive-min.css">
+    <link rel="stylesheet" href="/css/ionicons.min.css">
+    <link rel="stylesheet" href="/css/default.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body class="no-theme">
+    <span style="display:none" id="dark_mode_pref"></span>
+    <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-2-24"></div>
+        <div class="pure-u-1 pure-u-md-20-24" id="contents">
+            <div class="pure-g navbar h-box">
+                <div class="pure-u-1 pure-u-md-12-24 searchbar">
+                    <form class="pure-form" action="/search" method="get">
+                        <fieldset>
+                            <input type="search" id="searchbox" autocomplete="on" autocorrect="on" autocapitalize="none" spellcheck="false" name="q" placeholder="検索" title="検索" value="{{ word }}">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="pure-g">
+                {% for result in results %}
+                <div class="pure-u-1 pure-u-md-1-4">
+                    <div class="h-box">
+                        {% if result["type"] == "video" %}
+                        <a style="width:100%" href="/watch?v={{ result['id'] }}">
+                            <div class="thumbnail">
+                                <img loading="lazy" class="thumbnail" src="{% if proxy == "True" %}/thumbnail?v={{ result['id'] }}{% else %}https://img.youtube.com/vi/{{ result['id'] }}/0.jpg{% endif %}" onerror="document.cookie = 'proxy=True;max-age=2592000;';">
+                                <p class="length">{{result["length"]}}</p>
+                            </div>
+                            <p dir="auto">{{ result['title'] }}</p>
+                        </a>
+                        <div class="video-card-row flexible">
+                            <a href="/channel/{{result['authorId']}}">{{result["author"]}}</a>
+                        </div>
+                        <div class="video-card-row flexible">
+                            <div class="flex-left">
+                                    <p class="video-data" dir="auto">{{result["published"]}}</p>
+                            </div>
+                        </div>
+                        {% elif result["type"] == "channel" %}
+                            <a href="/channel/{{result["id"]}}">
+                                    <center>
+                                        <img loading="lazy" tabindex="-1" style="width:56.25%" src="{{result["thumbnail"]}}">
+                                    </center>
+                                <p dir="auto">{{result["author"]}}</p>
+                            </a>
+                        {% elif result["type"] == "playlist" %}
+                        <a style="width:100%" href="/playlist?list={{result["id"]}}">
+                
+                            <div class="thumbnail">
+                                <img loading="lazy" tabindex="-1" class="thumbnail" src="{% if proxy == "True" %}/thumbnail?v={{ result['thumbnail'] }}{% else %}https://img.youtube.com/vi/{{ result['thumbnail'] }}/0.jpg{% endif %}">
+                                <p class="length">{{result["count"]}}個の動画</p>
+                            </div>
+                        <p dir="auto">{{result["title"]}}</p>
+                    </a>
+                        {% endif %}
+                    </div>
+                </div>{% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="pure-g h-box">
+        <div class="pure-u-1 pure-u-lg-1-5">
+        </div>
+        <div class="pure-u-1 pure-u-lg-3-5"></div>
+        <div class="pure-u-1 pure-u-lg-1-5" style="text-align:right">
+
+            <a href="{{next}}">
+                次のページ
+            </a>
+        </div>
+    </div>
+    <script>$('#searchbox').autocomplete({
+        source: function (request, response) {
+            {
+        var url = "/suggest?keyword="+ request.term
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.onload = function() {
+            response(JSON.parse(xhr.responseText));
+        }
+        xhr.send();
+    }},delay:300});</script>
+</body>
+</html>

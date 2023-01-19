@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>中学生エンジニアの数学ノート</title>
+    <link>/blog/</link>
+    <description>Recent content on 中学生エンジニアの数学ノート</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 08 Jan 2023 14:54:05 +0900</lastBuildDate><atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>hugoで生成した静的サイトとfastapiを組み合わせる。</title>
+      <link>/blog/p/qvzimjn/</link>
+      <pubDate>Sun, 08 Jan 2023 14:54:05 +0900</pubDate>
+      
+      <guid>/blog/p/qvzimjn/</guid>
+      <description>エンジニアとして静的サイトだけでは満足ができないことも多いと予想したので、hugoの機能であるショートコードを使いバックエンドに接続できるようにする。
+がりがり書いたのがこれ キーボードガチャガチャした文字列か文章か確かめる。</description>
+    </item>
+    
+    <item>
+      <title>hugoのテーマをいじって自分好みにカスタマイズしよう！！！</title>
+      <link>/blog/p/99zn78n/</link>
+      <pubDate>Sun, 08 Jan 2023 14:44:36 +0900</pubDate>
+      
+      <guid>/blog/p/99zn78n/</guid>
+      <description>hugoを使ってブログを作ったのはいいが、自分のアイコンを設定することができない。 config.tomlをいじってもリファレンスを読んでもよくわからなかったのでテーマを直接書き換えることにした。
+このサイトはTranquilpeakというテーマを使っている。 調べたところによると、どうやら/thmers/Transquilpeak//layouts/partials/にテンプレートファイルがあるようなので、そこをいじってimages/avater.webpを参照するように書き換えた。 これでアイコンがとっても可愛い女の子になり癒されるようになった。</description>
+    </item>
+    
+    <item>
+      <title>ブログを開設しました！！！</title>
+      <link>/blog/p/izc274f/</link>
+      <pubDate>Fri, 06 Jan 2023 22:17:11 +0900</pubDate>
+      
+      <guid>/blog/p/izc274f/</guid>
+      <description>人生で始めてブログを作ってみました。
+今後数学やプログラムについて気になったことなどを書き連ねて行こうと思います。</description>
+    </item>
+    
+  </channel>
+</rss>
