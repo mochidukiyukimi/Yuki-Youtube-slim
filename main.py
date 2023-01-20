@@ -145,8 +145,7 @@ from fastapi.responses import RedirectResponse as redirect
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_csrf_protect import CsrfProtect
-from fastapi_csrf_protect.exceptions import CsrfProtectError
-
+from pydantic import BaseModel
 from typing import Union
 
 
@@ -158,10 +157,6 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 from fastapi.templating import Jinja2Templates
 template = Jinja2Templates(directory='templates').TemplateResponse
 
-class CsrfSettings(BaseModel):
-    secret_key:str = "".join(random.choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"))
-    cookie_samesite: str = 'none'
-    cookie_secure: bool  = True
 
 @CsrfProtect.load_config
 def get_csrf_config():
