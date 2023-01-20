@@ -157,6 +157,10 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 from fastapi.templating import Jinja2Templates
 template = Jinja2Templates(directory='templates').TemplateResponse
 
+class CsrfSettings(BaseModel):
+    secret_key:str = "".join(random.choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",k=50))
+    cookie_samesite: str = 'none'
+    cookie_secure: bool  = True
 
 @CsrfProtect.load_config
 def get_csrf_config():
