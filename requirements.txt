@@ -3,3 +3,4 @@ requests
 fastapi
 fastapi-cache2
 uvicorn
+fastapi-csrf-protect
