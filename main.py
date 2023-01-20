@@ -266,7 +266,7 @@ def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,N
     if not(check_cokie(yuki)):
         return redirect("/")
     try:
-         csrf_protect.validate_csrf_in_cookies(request)
+        csrf_protect.validate_csrf_in_cookies(request)
     except:
         return redirect("/bbs?name="+name+"&seed="+seed)
     requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)},cookie={"yuki":"True"})
