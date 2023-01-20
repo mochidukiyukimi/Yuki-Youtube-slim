@@ -146,8 +146,6 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
-from fastapi_cache import FastAPICache
-from fastapi_cache.decorator import cache
 
 from typing import Union
 
