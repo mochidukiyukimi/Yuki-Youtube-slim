@@ -250,6 +250,8 @@ def thumbnail(v:str):
 @app.get("/bbs",response_class=HTMLResponse)
 @cache(expire=60)
 def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
+    if not(check_cookie):
+        return redirect("/")
     res = requests.get(fr"{urllib.parse.quote(url)}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
     csrf_protect.set_csrf_cookie(res)
     return res
@@ -261,7 +263,8 @@ def view_bbs(request: Request,t: float,verify: Union[str,None] = "false"):
 
 @app.get("/bbs/result")
 def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,None] = "",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
-    if check_cookie
+    if not(check_cookie):
+        return redirect("/")
     try:
          csrf_protect.validate_csrf_in_cookies(request)
      except:
