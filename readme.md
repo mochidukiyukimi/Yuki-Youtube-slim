@@ -1,6 +1,8 @@
 ASGIで動く  
-deployボタンは追加していく予定です
-blog内に静的サイトを入れると認証されていない時にそのサイトが表示されます。画像は使えません。cookieにyuki=Trueを設定すると認証されます。
+deployボタンは追加していく予定です  
+blog内に静的サイトを入れると認証されていない時にそのサイトが表示されます。  
+画像は使えません。  
+cookieにyuki=Trueを設定すると認証されます。  
 
 startコマンドにuvicorn main:appを入れる  
 <a href="https://render.com/deploy?repo=https://github.com/mochidukiyukimi/Yuki-Youtube-slim">
