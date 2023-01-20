@@ -247,7 +247,7 @@ def thumbnail(v:str):
 def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
     if not(check_cokie(yuki)):
         return redirect("/")
-    res = HTMLResponse(requests.get(fr"{url}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text)
+    res = HTMLResponse(requests.get(fr"{url}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text)
     csrf_protect.set_csrf_cookie(res)
     return res
 
@@ -264,9 +264,9 @@ def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,N
     try:
         csrf_protect.validate_csrf_in_cookies(request)
     except:
-        return redirect("/bbs?name="+name+"&seed="+seed)
-    requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)}",cookie={"yuki":"True"})
-    return redirect(f"/bbs?name={name}&seed={seed}&verify={verify}")
+        return redirect("/bbs?name="+urllib.parse.quote(name)+"&seed="+urllib.parse.quote(seed))
+    requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"})
+    return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)}")
 
 @app.get("/bbs/commonds",response_class=HTMLResponse)
 def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
