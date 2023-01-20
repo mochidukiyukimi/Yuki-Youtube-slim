@@ -4,6 +4,7 @@ import urllib.parse
 import time
 import datetime
 import random
+from cache import cache
 
 
 max_api_wait_time = 3
@@ -248,7 +249,7 @@ def thumbnail(v:str):
     return Response(content = requests.get(fr"https://img.youtube.com/vi/{v}/0.jpg").content,media_type=r"image/jpeg")
 
 @app.get("/bbs",response_class=HTMLResponse)
-@cache(expire=60)
+@cache(seconds=20)
 def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
     if not(check_cokie(yuki)):
         return redirect("/")
@@ -257,7 +258,7 @@ def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="
     return res
 
 @app.get("/bbs/api",response_class=HTMLResponse)
-@cache(expire=5)
+@cache(seconds=5)
 def view_bbs(request: Request,t: float,verify: Union[str,None] = "false"):
     return requests.get(fr"{url}/bbs/api?t={urllib.parse.quote(t)}verify={urllib.parse.quote(verify)}").text
 
