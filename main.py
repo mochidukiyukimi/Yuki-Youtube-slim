@@ -10,7 +10,7 @@ from cache import cache
 max_api_wait_time = 3
 max_time = 10
 apis = [r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/"]
-
+url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
 
 apichannels = []
 apicomments = []
@@ -138,7 +138,7 @@ def check_cokie(cookie):
 
 
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi import Response,Cookie,Request
 from fastapi.responses import HTMLResponse,PlainTextResponse
 from fastapi.responses import RedirectResponse as redirect
@@ -159,8 +159,6 @@ template = Jinja2Templates(directory='templates').TemplateResponse
 
 class CsrfSettings(BaseModel):
     secret_key:str = "".join(random.choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",k=50))
-    cookie_samesite: str = 'none'
-    cookie_secure: bool  = True
 
 @CsrfProtect.load_config
 def get_csrf_config():
@@ -246,18 +244,18 @@ def thumbnail(v:str):
     return Response(content = requests.get(fr"https://img.youtube.com/vi/{v}/0.jpg").content,media_type=r"image/jpeg")
 
 @app.get("/bbs",response_class=HTMLResponse)
-@cache(seconds=20)
 def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
     if not(check_cokie(yuki)):
         return redirect("/")
-    res = requests.get(fr"{urllib.parse.quote(url)}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+    res = HTMLResponse(requests.get(fr"{url}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text)
     csrf_protect.set_csrf_cookie(res)
     return res
 
 @app.get("/bbs/api",response_class=HTMLResponse)
 @cache(seconds=5)
-def view_bbs(request: Request,t: float,verify: Union[str,None] = "false"):
-    return requests.get(fr"{url}/bbs/api?t={urllib.parse.quote(t)}verify={urllib.parse.quote(verify)}").text
+def view_bbs(request: Request,t: str,verify: Union[str,None] = "false"):
+    print(fr"{url}bbs/api?t={urllib.parse.quote(t)}&verify={urllib.parse.quote(verify)}")
+    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(t)}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
 
 @app.get("/bbs/result")
 def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,None] = "",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
