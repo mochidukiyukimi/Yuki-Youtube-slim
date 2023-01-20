@@ -3,6 +3,7 @@ import requests
 import urllib.parse
 import time
 import datetime
+import random
 
 
 max_api_wait_time = 3
@@ -142,6 +143,8 @@ from fastapi.responses import HTMLResponse,PlainTextResponse
 from fastapi.responses import RedirectResponse as redirect
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi_csrf_protect import CsrfProtect
+from fastapi_csrf_protect.exceptions import CsrfProtectError
 
 from typing import Union
 
@@ -153,6 +156,15 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 from fastapi.templating import Jinja2Templates
 template = Jinja2Templates(directory='templates').TemplateResponse
+
+class CsrfSettings(BaseModel):
+    secret_key:str = "".join(random.choices("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"))
+    cookie_samesite: str = 'none'
+    cookie_secure: bool  = True
+
+@CsrfProtect.load_config
+def get_csrf_config():
+    return CsrfSettings()
 
 
 
@@ -232,6 +244,33 @@ def replies(key):
 @app.get("/thumbnail")
 def thumbnail(v:str):
     return Response(content = requests.get(fr"https://img.youtube.com/vi/{v}/0.jpg").content,media_type=r"image/jpeg")
+
+@app.get("/bbs",response_class=HTMLResponse)
+def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
+    res = requests.get(fr"{urllib.parse.quote(url)}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+    csrf_protect.set_csrf_cookie(res)
+    return res
+
+@app.get("/bbs/api",response_class=HTMLResponse)
+def view_bbs(request: Request,t: float,verify: Union[str,None] = "false"):
+    return requests.get(fr"{url}/bbs/api?t={urllib.parse.quote(t)}verify={urllib.parse.quote(verify)}").text
+
+@app.get("/bbs/result")
+def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,None] = "",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
+    if check_cookie
+    try:
+         csrf_protect.validate_csrf_in_cookies(request)
+     except:
+         return redirect("/bbs?name="+name+"&seed="+seed)
+    requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)},cookie={"yuki":"True"})
+    return redirect("/bbs?name={name}&seed={seed}&verify={verify}")
+
+@app.get("/bbs/commonds",response_class=HTMLResponse)
+def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
+    if not(check_cokie(yuki)):
+        return redirect("/")
+    return template("commonds.html",{"request":request})
+
 
 @app.exception_handler(500)
 def page(request: Request,__):
