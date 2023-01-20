@@ -145,6 +145,8 @@ from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
+from fastapi_cache import FastAPICache
+from fastapi_cache.decorator import cache
 
 from typing import Union
 
@@ -246,12 +248,14 @@ def thumbnail(v:str):
     return Response(content = requests.get(fr"https://img.youtube.com/vi/{v}/0.jpg").content,media_type=r"image/jpeg")
 
 @app.get("/bbs",response_class=HTMLResponse)
+@cache(expire=60)
 def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
     res = requests.get(fr"{urllib.parse.quote(url)}bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
     csrf_protect.set_csrf_cookie(res)
     return res
 
 @app.get("/bbs/api",response_class=HTMLResponse)
+@cache(expire=5)
 def view_bbs(request: Request,t: float,verify: Union[str,None] = "false"):
     return requests.get(fr"{url}/bbs/api?t={urllib.parse.quote(t)}verify={urllib.parse.quote(verify)}").text
 
