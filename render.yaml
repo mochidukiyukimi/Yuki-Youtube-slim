@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: ${SITE_URL}
+    name: $SITE_URL
     env: python
     region: Oregon
     plan: free
