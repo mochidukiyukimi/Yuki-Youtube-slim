@@ -7,5 +7,5 @@ services:
     buildCommand: "pip install -r requirements.txt"
     startCommand: "uvicorn --port $PORT --host 0.0.0.0 main:app"
     envVars:
-      key: NAME
-      sync: false
+      -key: NAME
+       sync: false
