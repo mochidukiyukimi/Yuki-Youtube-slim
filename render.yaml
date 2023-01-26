@@ -1,7 +1,11 @@
 services:
   - type: web
+    name: ${NAME}
     env: python
     region: Oregon
     plan: free
     buildCommand: "pip install -r requirements.txt"
     startCommand: "uvicorn --port $PORT --host 0.0.0.0 main:app"
+    envVars:
+      key: NAME
+      sync: false
