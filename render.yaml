@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: yuki-youtube-slim
+    name:eremento-youtube.slim
     env: python
     region: Oregon
     plan: free
