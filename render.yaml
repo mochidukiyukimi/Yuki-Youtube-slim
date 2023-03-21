@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: yuki-youtube-slim
+    name: tiben-youtube-slim
     env: python
     region: Oregon
     plan: free
