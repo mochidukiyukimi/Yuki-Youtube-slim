@@ -281,6 +281,11 @@ def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
         return redirect("/")
     return template("commonds.html",{"request":request})
 
+@app.get("/load_instance")
+def home():
+    global url
+    url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
+
 
 @app.exception_handler(500)
 def page(request: Request,__):
