@@ -18,6 +18,14 @@ apicomments = []
 class APItimeoutError(Exception):
     pass
 
+def is_json(json_str):
+    result = False
+    try:
+        json.loads(json_str)
+        result = True
+    except json.JSONDecodeError as jde:
+        pass
+    return result
 
 def apirequest(url):
     global apis
@@ -28,7 +36,7 @@ def apirequest(url):
             break
         try:
             res = requests.get(api+url,timeout=max_api_wait_time)
-            if res.status_code == 200:
+            if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
                 print(f"エラー:{api}")
@@ -49,7 +57,7 @@ def apichannelrequest(url):
             break
         try:
             res = requests.get(api+url,timeout=max_api_wait_time)
-            if res.status_code == 200:
+            if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
                 print(f"エラー:{api}")
@@ -70,7 +78,7 @@ def apicommentsrequest(url):
             break
         try:
             res = requests.get(api+url,timeout=max_api_wait_time)
-            if res.status_code == 200:
+            if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
                 print(f"エラー:{api}")
@@ -82,7 +90,7 @@ def apicommentsrequest(url):
             apicomments.remove(api)
     raise APItimeoutError("APIがタイムアウトしました")
 
-            
+
 
 def get_data(videoid):
     global logs
@@ -235,10 +243,6 @@ def suggest(keyword:str):
 def comments(request: Request,v:str):
     return template("comments.html",{"request": request,"comments":get_comments(v)})
 
-@app.get("comments/{videoid}",response_class=PlainTextResponse)
-def replies(key):
-    return get_replies(videoid,key)
-
 @app.get("/thumbnail")
 def thumbnail(v:str):
     return Response(content = requests.get(fr"https://img.youtube.com/vi/{v}/0.jpg").content,media_type=r"image/jpeg")
@@ -251,11 +255,14 @@ def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="
     csrf_protect.set_csrf_cookie(res)
     return res
 
-@app.get("/bbs/api",response_class=HTMLResponse)
 @cache(seconds=5)
+def bbsapi_cached(verify):
+    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+
+@app.get("/bbs/api",response_class=HTMLResponse)
 def view_bbs(request: Request,t: str,verify: Union[str,None] = "false"):
     print(fr"{url}bbs/api?t={urllib.parse.quote(t)}&verify={urllib.parse.quote(verify)}")
-    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(t)}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+    return bbsapi_cached(verify)
 
 @app.get("/bbs/result")
 def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,None] = "",verify:Union[str,None]="false",yuki: Union[str] = Cookie(None), csrf_protect:CsrfProtect = Depends()):
