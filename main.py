@@ -255,7 +255,7 @@ def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="
     csrf_protect.set_csrf_cookie(res)
     return res
 
-@cache(seconds=5)
+@cache(seconds=2)
 def bbsapi_cached(verify):
     return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
 
