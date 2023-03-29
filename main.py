@@ -273,6 +273,8 @@ def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,N
     except:
         return redirect("/bbs?name="+urllib.parse.quote(name)+"&seed="+urllib.parse.quote(seed))
     requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"})
+    if verify == "on":
+        verify = "true"
     return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&verify={urllib.parse.quote(verify)}")
 
 @app.get("/bbs/commonds",response_class=HTMLResponse)
