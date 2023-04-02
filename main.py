@@ -257,7 +257,11 @@ def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="
 
 @cache(seconds=2)
 def bbsapi_cached(verify):
-    return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+    while True:
+        try:
+            return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+        except:
+            time.sleep(random.uniform(5,10))
 
 @app.get("/bbs/api",response_class=HTMLResponse)
 def view_bbs(request: Request,t: str,verify: Union[str,None] = "false"):
