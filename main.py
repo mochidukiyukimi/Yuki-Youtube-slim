@@ -259,7 +259,8 @@ def view_bbs(request: Request,name: Union[str, None] = "",seed:Union[str,None]="
 def bbsapi_cached(verify):
     while True:
         try:
-            return requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+            t = requests.get(fr"{url}bbs/api?t={urllib.parse.quote(str(int(time.time()*1000)))}&verify={urllib.parse.quote(verify)}",cookies={"yuki":"True"}).text
+            assert response.status_code == 200
         except:
             time.sleep(random.uniform(5,10))
 
