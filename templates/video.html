@@ -19,6 +19,9 @@
         <div class="pure-u-1 pure-u-md-20-24" id="contents">
             <div class="pure-g navbar h-box">
                 <div class="pure-u-1 pure-u-md-12-24 searchbar">
+
+                    <a href="/requestform">新機能の要望やバグ報告</a><br>
+                    <a href="/bbs">掲示板</a>
                     <form class="pure-form" action="/search" method="get">
                         <fieldset>
                             <input type="search" id="searchbox" autocomplete="on" autocorrect="on" autocapitalize="none"
@@ -69,7 +72,7 @@
                 </div>
                 <div class="pure-u-1 pure-u-lg-1-5">
                     <!--自動再生<input type="checkbox" id="autonext" onchange="checkautoplay()"><br>-->
-                    <!--ループ再生<input type="checkbox" id="loop" onchange="changeloop()">-->
+                    ループ再生<input type="checkbox" id="loop" onchange="changeloop()">
                     {% for re in res %}
                     <a href="/watch?v={{ re['id'] }}">
 
@@ -88,10 +91,10 @@
         document.cookie = "yuki=True;max-age=2592000;";
         function getCookie(name) { let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)")); return matches ? decodeURIComponent(matches[1]) : undefined; }
         //document.getElementById("autonext").checked = getCookie("autonext");
-        //function checkautoplay(){document.cookie = "autonext="+document.getElementById("autonext").checked+";max-age=2592000;";}
-        //document.getElementById("loop").checked = getCookie("loop");
-        //document.getElementById("player").loop = document.getElementById("loop").checked;
-        //function changeloop(){document.cookie = "autonext="+document.getElementById("loop").checked+";max-age=2592000;";document.getElementById("player").loop = document.getElementById("loop").checked}
+        function checkautoplay(){document.cookie = "autonext="+document.getElementById("autonext").checked+";max-age=2592000;";}
+        document.getElementById("loop").checked = getCookie("loop");
+        document.getElementById("player").loop = document.getElementById("loop").checked;
+        function changeloop(){document.cookie = "autonext="+document.getElementById("loop").checked+";max-age=2592000;";document.getElementById("player").loop = document.getElementById("loop").checked}
         //function sleep(waitMsec) {var startMsec = new Date();while (new Date() - startMsec < waitMsec);}
         //function autopage(){if (document.getElementById('autonext').checked) {sleep(5000);document.cookie = "autonext=true;max-age=2592000;";location.href = "/watch?v={{res[0]["id"]}}";}else{document.cookie = "autonext=false;max-age=2592000;";}}
         function getUrlQueries() { var queryStr = window.location.search.slice(1); queries = {}; queryStr.split('&').forEach(function (queryStr) { var queryArr = queryStr.split('='); queries[queryArr[0]] = queryArr[1]; }); return queries; }
