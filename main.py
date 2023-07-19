@@ -265,11 +265,15 @@ def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,N
         verify = "true"
     return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}")
 
-@app.get("/bbs/commonds",response_class=HTMLResponse)
+@cache(seconds=30)
+def how_cached():
+    return requests.get(fr"{url}bbs/how)
+
+@app.get("/bbs/how",response_class=PlainTextResponse)
 def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
     if not(check_cokie(yuki)):
         return redirect("/")
-    return template("commonds.html",{"request":request})
+    return how_cached
 
 @app.get("/load_instance")
 def home():
