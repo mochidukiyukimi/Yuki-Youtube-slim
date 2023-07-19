@@ -267,7 +267,7 @@ def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,N
 
 @cache(seconds=30)
 def how_cached():
-    return requests.get(fr"{url}bbs/how")
+    return requests.get(fr"{url}bbs/how").text
 
 @app.get("/bbs/how",response_class=PlainTextResponse)
 def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
