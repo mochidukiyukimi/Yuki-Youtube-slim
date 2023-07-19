@@ -273,7 +273,7 @@ def how_cached():
 def view_commonds(request: Request,yuki: Union[str] = Cookie(None)):
     if not(check_cokie(yuki)):
         return redirect("/")
-    return how_cached
+    return how_cached()
 
 @app.get("/load_instance")
 def home():
