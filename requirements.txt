@@ -2,4 +2,4 @@ jinja2
 requests
 fastapi
 uvicorn
-pyarmor
+pyarmor==6.8.1
