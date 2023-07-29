@@ -18,11 +18,11 @@ from fnmatch import fnmatch
 plat_path = 'platforms'
 
 plat_table = (
-    ('windows', ('windows', 'cygwin*')),
+    ('windows', ('windows', 'cygwin-*')),
     ('darwin', ('darwin',)),
     ('ios', ('ios',)),
     ('linux', ('linux*',)),
-    ('freebsd', ('freebsd*', 'openbsd*', 'isilon onefs')),
+    ('freebsd', ('freebsd*', 'openbsd*')),
     ('poky', ('poky',)),
 )
 
@@ -295,22 +295,17 @@ def _load_library(path=None, is_runtime=0, platid=None, suffix='', advanced=0):
         else os.path.normpath(path)
 
     plat = platform.system().lower()
-    for alias, platlist in plat_table:
-        if _match_features(platlist, plat):
-            plat = alias
-            break
-
     name = '_pytransform' + suffix
     if plat == 'linux':
         filename = os.path.abspath(os.path.join(path, name + '.so'))
-    elif plat in ('darwin', 'ios'):
+    elif plat == 'darwin':
         filename = os.path.join(path, name + '.dylib')
     elif plat == 'windows':
         filename = os.path.join(path, name + '.dll')
-    elif plat in ('freebsd', 'poky'):
+    elif plat == 'freebsd':
         filename = os.path.join(path, name + '.so')
     else:
-        filename = None
+        raise PytransformError('Platform %s not supported' % plat)
 
     if platid is not None and os.path.isfile(platid):
         filename = platid
@@ -318,9 +313,6 @@ def _load_library(path=None, is_runtime=0, platid=None, suffix='', advanced=0):
         libpath = platid if platid is not None and os.path.isabs(platid) else \
             os.path.join(path, plat_path, format_platform(platid))
         filename = os.path.join(libpath, os.path.basename(filename))
-
-    if filename is None:
-        raise PytransformError('Platform %s not supported' % plat)
 
     if not os.path.exists(filename):
         raise PytransformError('Could not find "%s"' % filename)
@@ -337,9 +329,6 @@ def _load_library(path=None, is_runtime=0, platid=None, suffix='', advanced=0):
     #     m.set_option(-1, find_library('c').encode())
 
     if not os.path.abspath('.') == os.path.abspath(path):
-        m.set_option(1, path.encode() if sys.version_info[0] == 3 else path)
-    elif (not is_runtime) and sys.platform.startswith('cygwin'):
-        path = os.environ['PYARMOR_CYGHOME']
         m.set_option(1, path.encode() if sys.version_info[0] == 3 else path)
 
     # Required from Python3.6
