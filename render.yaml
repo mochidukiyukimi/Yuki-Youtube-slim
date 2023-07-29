@@ -8,4 +8,4 @@ services:
     startCommand: "uvicorn --port $PORT --host 0.0.0.0 main:app"
     envVars:
     - key: PYTHON_VERSION
-      value: 3.10
+      value: 3.10.9
