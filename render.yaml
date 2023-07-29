@@ -2,9 +2,9 @@ services:
   - type: web
     name: yuki-youtube-slim
     env: python
-    key: PYTHON_VERSION
-    value: 3.10
     region: Oregon
     plan: free
     buildCommand: "pip install -r requirements.txt"
     startCommand: "uvicorn --port $PORT --host 0.0.0.0 main:app"
+  key: PYTHON_VERSION
+  value: 3.10
