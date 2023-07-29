@@ -6,5 +6,6 @@ services:
     plan: free
     buildCommand: "pip install -r requirements.txt"
     startCommand: "uvicorn --port $PORT --host 0.0.0.0 main:app"
-  key: PYTHON_VERSION
-  value: 3.10
+    envVars:
+      key: PYTHON_VERSION
+      value: 3.10
