@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: yuki-youtube-slim
+    name: ash0507-ama
     env: python
     region: Oregon
     plan: free
