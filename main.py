@@ -5,6 +5,7 @@ import time
 import datetime
 import random
 from cache import cache
+import os
 
 
 max_api_wait_time = 3
@@ -263,7 +264,7 @@ def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,N
     requests.get(fr'{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}',cookies={"yuki":"True"})
     if verify == "on":
         verify = "true"
-    return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}")
+    return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}&serververify={os.getenv('official', 'false')}")
 
 @cache(seconds=30)
 def how_cached():
