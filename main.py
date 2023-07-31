@@ -262,7 +262,7 @@ def write_bbs(request: Request,name: str = "",message: str = "",seed:Union[str,N
     if not(check_cokie(yuki)):
         return redirect("/")
     t = requests.get(fr"{url}bbs/result?name={urllib.parse.quote(name)}&message={urllib.parse.quote(message)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}&serververify={os.getenv('official', 'false')}",cookies={"yuki":"True"}, allow_redirects=False)
-    if t.status_code != 304:
+    if t.status_code != 307:
         return t.text
     return redirect(f"/bbs?name={urllib.parse.quote(name)}&seed={urllib.parse.quote(seed)}&channel={urllib.parse.quote(channel)}&verify={urllib.parse.quote(verify)}")
 
