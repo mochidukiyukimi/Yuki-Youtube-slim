@@ -6,6 +6,7 @@ cookieにyuki=Trueを設定すると認証されます。
 サーバーの起動時に掲示板の公式インスタンスに接続します。定期的にサーバーを再起動してください。  
 
 Renderを使用する場合の手順  
+1~4の作業をやらないと、自動でURLがyuki-math-blog-[4桁の英数字].onrender.comになります。
 1.githubアカウントを作成する  
 2.リポジトリを作る(名前はなんでもいい)(プライベートリポジトリにすることをおすすめします)  
 3.import codeを押して https://github.com/mochidukiyukimi/Yuki-Youtube-slim/ と入力  
@@ -15,4 +16,3 @@ Renderを使用する場合の手順
 <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
 </a>
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/dSxuA8)
