@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: yuki-youtube-slim
+    name: yuki-math-blog
     env: python
     region: Oregon
     plan: free
